@@ -1,6 +1,6 @@
-"use client";
+import Link from "next/link";
 
-export default function Hero({ onRegisterClick }: { onRegisterClick: () => void }) {
+export default function Hero() {
   return (
     <section className="hero" id="about">
       <div className="container">
@@ -15,9 +15,9 @@ export default function Hero({ onRegisterClick }: { onRegisterClick: () => void 
           <a href="#projects" className="btn primary-btn">
             Explore Projects <i className="fa-solid fa-arrow-down"></i>
           </a>
-          <button onClick={onRegisterClick} className="btn secondary-btn">
+          <Link href="/login" className="btn secondary-btn">
             Register Team <i className="fa-solid fa-users"></i>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

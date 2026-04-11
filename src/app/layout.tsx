@@ -22,7 +22,7 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         {/* Background Elements for Glassmorphism */}
         <div className="blob blob-1"></div>
         <div className="blob blob-2"></div>

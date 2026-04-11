@@ -456,6 +456,44 @@ nav a:hover {
     font-size: 0.9rem;
 }
 
+/* Taken Project Cards */
+.taken-project {
+    opacity: 0.5;
+    filter: grayscale(60%);
+}
+.taken-project:hover {
+    transform: none;
+    border-color: var(--glass-border);
+    background: var(--glass-bg);
+}
+.taken-project:hover .card-icon {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+}
+.taken-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    margin-bottom: 0.8rem;
+    width: fit-content;
+}
+
+/* Glass Card utility */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+}
+
 /* Responsiveness */
 @media (max-width: 768px) {
     .hero h2 {
@@ -463,5 +501,9 @@ nav a:hover {
     }
     .modal-content {
         padding: 1.5rem;
+    }
+    .glass-nav .container {
+        flex-direction: column;
+        gap: 0.8rem;
     }
 }

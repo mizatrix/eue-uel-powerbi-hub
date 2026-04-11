@@ -5,7 +5,7 @@ import { projectsData, Project } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 
-export default function ProjectGrid() {
+export default function ProjectGrid({ takenProjects }: { takenProjects: Record<number, string> }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -41,6 +41,7 @@ export default function ProjectGrid() {
               <ProjectCard
                 key={project.id}
                 project={project}
+                takenBy={takenProjects[project.id]}
                 onClick={() => setSelectedProject(project)}
               />
             ))
@@ -48,7 +49,6 @@ export default function ProjectGrid() {
         </div>
       </div>
 
-      {/* Render the modal here */}
       <ProjectModal
         project={selectedProject}
         isOpen={selectedProject !== null}

@@ -1,24 +1,31 @@
-"use client";
-
-import { useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProjectGrid from "@/components/ProjectGrid";
 import Footer from "@/components/Footer";
-import RegisterModal from "@/components/RegisterModal";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Home() {
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+export default async function Home() {
+  const supabase = await createClient();
+  
+  // Fetch taken projects
+  const { data: teams } = await supabase.from('teams').select('project_id, team_name');
+  
+  // Create a mapping of project_id -> team_name
+  const takenProjects: Record<number, string> = {};
+  if (teams) {
+    teams.forEach(team => {
+      takenProjects[team.project_id] = team.team_name;
+    });
+  }
 
   return (
     <>
       <Header />
       <main>
-        <Hero onRegisterClick={() => setIsRegisterOpen(true)} />
-        <ProjectGrid />
+        <Hero />
+        <ProjectGrid takenProjects={takenProjects} />
       </main>
       <Footer />
-      <RegisterModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
     </>
   );
 }
