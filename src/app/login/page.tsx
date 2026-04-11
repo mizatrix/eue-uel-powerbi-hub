@@ -51,11 +51,11 @@ export default async function LoginPage({
               <input id="password" name="password" type="password" required placeholder="••••••••" />
             </div>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-              <button formAction={login} className="btn primary-btn submit-btn">
-                <i className="fa-solid fa-right-to-bracket" style={{ marginRight: '0.5rem' }}></i> Log in
+              <button formAction={login} className="btn primary-btn submit-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', whiteSpace: 'nowrap' }}>
+                <i className="fa-solid fa-right-to-bracket"></i> Log in
               </button>
-              <button formAction={signup} className="btn secondary-btn submit-btn">
-                <i className="fa-solid fa-user-plus" style={{ marginRight: '0.5rem' }}></i> Sign up
+              <button formAction={signup} className="btn secondary-btn submit-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', whiteSpace: 'nowrap' }}>
+                <i className="fa-solid fa-user-plus"></i> Sign up
               </button>
             </div>
           </form>
