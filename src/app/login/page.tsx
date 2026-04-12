@@ -8,6 +8,7 @@ export default async function LoginPage({
 }) {
   const resolvedParams = await searchParams
   const error = resolvedParams?.error as string | undefined
+  const success = resolvedParams?.success as string | undefined
 
   return (
     <>
@@ -38,6 +39,13 @@ export default async function LoginPage({
             <div style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#fca5a5', borderRadius: '12px', textAlign: 'center', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
               <i className="fa-solid fa-triangle-exclamation"></i>
               {error}
+            </div>
+          )}
+
+          {success && (
+            <div style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.3)', color: '#86efac', borderRadius: '12px', textAlign: 'center', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <i className="fa-solid fa-circle-check"></i>
+              {success}
             </div>
           )}
 

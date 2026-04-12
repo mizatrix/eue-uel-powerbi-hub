@@ -10,7 +10,6 @@ export async function updateSession(request: NextRequest) {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseKey) {
-    // If Vercel environment variables are missing, do not crash the Proxy
     return NextResponse.next({ request })
   }
 
@@ -23,7 +22,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -35,12 +34,17 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
+  // IMPORTANT: Do NOT use getSession() here — only getUser() sends a request
+  // to the Supabase Auth server to properly validate and refresh the token.
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Only redirect to login for page navigations (GET requests), not for
+  // server actions (POST requests). Server actions handle their own auth.
   if (
     !user &&
+    request.method === 'GET' &&
     !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/auth') &&
     request.nextUrl.pathname !== '/'

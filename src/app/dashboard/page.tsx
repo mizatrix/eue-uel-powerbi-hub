@@ -1,9 +1,19 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { registerTeam } from './actions'
+import { projectsData } from '@/data/projects'
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
   const supabase = await createClient()
+  const resolvedParams = await searchParams
+
+  const error = resolvedParams?.error as string | undefined
+  const success = resolvedParams?.success as string | undefined
 
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -18,12 +28,19 @@ export default async function DashboardPage() {
     .eq('id', user.id)
     .single()
 
-  // Fetch the student's team
+  // Fetch the student's team (as leader)
   const { data: team } = await supabase
     .from('teams')
     .select('*, submissions(*)')
     .eq('leader_id', user.id)
     .single()
+
+  // Fetch all taken project IDs to disable them in the dropdown
+  const { data: takenTeams } = await supabase
+    .from('teams')
+    .select('project_id')
+
+  const takenProjectIds = new Set(takenTeams?.map(t => t.project_id) || [])
 
   return (
     <>
@@ -53,28 +70,104 @@ export default async function DashboardPage() {
           </div>
         </div>
 
+        {/* Feedback Messages */}
+        {error && (
+          <div style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#fca5a5', borderRadius: '12px', textAlign: 'center', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+            <i className="fa-solid fa-triangle-exclamation"></i>
+            {error}
+          </div>
+        )}
+        {success && (
+          <div style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.3)', color: '#86efac', borderRadius: '12px', textAlign: 'center', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+            <i className="fa-solid fa-circle-check"></i>
+            {success}
+          </div>
+        )}
+
         <div className="grid">
+          {/* Team Card */}
           <div className="glass-card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column' }}>
             <div className="modal-header">
               <div className="modal-icon"><i className="fa-solid fa-users"></i></div>
               <h3>Your Team</h3>
             </div>
+
             {team ? (
               <div style={{ marginTop: '1rem', flexGrow: 1 }}>
-                <p style={{ marginBottom: '0.5rem' }}><strong>Team Name:</strong> {team.team_name}</p>
-                <p style={{ marginBottom: '0.5rem' }}><strong>Project ID:</strong> {team.project_id}</p>
-                <p><strong>Members:</strong> {JSON.stringify(team.members)}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  <p><strong>Team Name:</strong> <span style={{ color: 'var(--primary-color)' }}>{team.team_name}</span></p>
+                  <p><strong>Project:</strong> {projectsData.find(p => p.id === team.project_id)?.title || `Project #${team.project_id}`}</p>
+                  <div>
+                    <strong>Members:</strong>
+                    {Array.isArray(team.members) && team.members.length > 0 ? (
+                      <ul style={{ marginTop: '0.4rem', paddingLeft: '1.2rem', listStyleType: 'none' }}>
+                        {team.members.map((member: string, i: number) => (
+                          <li key={i} style={{ padding: '0.2rem 0', color: 'var(--text-muted)' }}>
+                            <i className="fa-solid fa-user" style={{ marginRight: '0.5rem', fontSize: '0.75rem', color: 'var(--primary-color)' }}></i>
+                            {member}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span style={{ color: 'var(--text-muted)', marginLeft: '0.5rem' }}>No members added</span>
+                    )}
+                  </div>
+                </div>
               </div>
             ) : (
-              <div style={{ marginTop: '1rem', flexGrow: 1 }}>
-                <p style={{ color: 'var(--text-muted)' }}>You have not registered a team yet.</p>
-                <Link href="/" className="btn primary-btn" style={{ marginTop: '1rem', display: 'inline-block', padding: '0.7rem 1.5rem', fontSize: '0.9rem' }}>
-                  <i className="fa-solid fa-arrow-left" style={{ marginRight: '0.4rem' }}></i> Back to Home
-                </Link>
-              </div>
+              /* Team Registration Form */
+              <form action={registerTeam} style={{ marginTop: '1rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '1.2rem', fontSize: '0.9rem' }}>
+                  <i className="fa-solid fa-info-circle" style={{ marginRight: '0.4rem' }}></i>
+                  You haven&apos;t registered a team yet. Fill in the details below:
+                </p>
+                <div className="form-group">
+                  <label htmlFor="team_name">
+                    Team Name <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="team_name"
+                    name="team_name"
+                    required
+                    placeholder="e.g. The Pythons"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="project_id">
+                    Select Project <span className="required">*</span>
+                  </label>
+                  <select id="project_id" name="project_id" required defaultValue="">
+                    <option value="" disabled>-- Choose a Project --</option>
+                    {projectsData.map((project) => {
+                      const isTaken = takenProjectIds.has(project.id)
+                      return (
+                        <option key={project.id} value={project.id} disabled={isTaken}>
+                          {project.id}. {project.title}{isTaken ? ' (Taken)' : ''}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="members">
+                    Team Members (one per line)
+                  </label>
+                  <textarea
+                    id="members"
+                    name="members"
+                    rows={4}
+                    placeholder={"Ahmed Ali - 2110001\nSara Ahmed - 2110002\nOmar Sayed - 2110003"}
+                  ></textarea>
+                </div>
+                <button type="submit" className="btn primary-btn submit-btn" style={{ marginTop: 'auto' }}>
+                  <i className="fa-solid fa-paper-plane" style={{ marginRight: '0.4rem' }}></i> Register Team
+                </button>
+              </form>
             )}
           </div>
 
+          {/* Submission Card — only show if team exists */}
           {team && (
             <div className="glass-card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column' }}>
               <div className="modal-header">

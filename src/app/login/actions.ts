@@ -15,6 +15,10 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
+    // Provide a friendlier message for unconfirmed emails
+    if (error.message.toLowerCase().includes('email not confirmed')) {
+      redirect('/login?error=Email not confirmed. Please check your inbox (and spam folder) for the confirmation link.')
+    }
     redirect(`/login?error=${encodeURIComponent(error.message)}`)
   }
 
@@ -44,6 +48,6 @@ export async function signup(formData: FormData) {
     redirect(`/login?error=${encodeURIComponent(error.message)}`)
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/dashboard')
+  // After successful signup, show a message about email confirmation
+  redirect('/login?success=Account created! Check your email inbox to confirm, then log in.')
 }
