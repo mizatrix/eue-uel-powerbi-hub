@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import Rubric from "@/components/Rubric";
 import ProjectGrid from "@/components/ProjectGrid";
 import Footer from "@/components/Footer";
 import { createClient } from "@/utils/supabase/server";
@@ -23,6 +24,7 @@ export default async function Home() {
       <Header />
       <main>
         <Hero />
+        <Rubric />
         <ProjectGrid takenProjects={takenProjects} />
       </main>
       <Footer />

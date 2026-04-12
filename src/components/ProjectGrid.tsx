@@ -4,6 +4,7 @@ import { useState } from "react";
 import { projectsData, Project } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
+import styles from "./ProjectGrid.module.css";
 
 export default function ProjectGrid({ takenProjects }: { takenProjects: Record<number, string> }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,24 +17,25 @@ export default function ProjectGrid({ takenProjects }: { takenProjects: Record<n
   );
 
   return (
-    <section className="projects-section" id="projects">
-      <div className="container">
-        <div className="section-header">
+    <section className={styles.projectsSection} id="projects">
+      <div className={styles.container}>
+        <div className={styles.sectionHeader}>
           <h2>Available Projects</h2>
-          <div className="search-container">
-            <i className="fa-solid fa-search"></i>
+          <div className={styles.searchContainer}>
+            <i className={`fa-solid fa-search ${styles.searchIcon}`}></i>
             <input
               type="text"
               placeholder="Search projects..."
+              className={styles.searchInput}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="grid" id="projects-grid">
+        <div className={styles.grid} id="projects-grid">
           {filteredProjects.length === 0 ? (
-            <p style={{ gridColumn: "1/-1", textAlign: "center", color: "var(--text-muted)" }}>
+            <p className={styles.noResults}>
               No projects found matching your search.
             </p>
           ) : (
