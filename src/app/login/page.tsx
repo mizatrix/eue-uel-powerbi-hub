@@ -1,6 +1,6 @@
 import { login, signup } from './actions'
-import Link from 'next/link'
 import styles from './login.module.css'
+import Header from '@/components/Header'
 
 export default async function LoginPage({
   searchParams,
@@ -13,14 +13,7 @@ export default async function LoginPage({
 
   return (
     <>
-      <header className={styles.glassNav}>
-        <div className={styles.navContainer}>
-          <Link href="/" className={styles.logo}>
-            <i className="fa-brands fa-python"></i> AASTMT BIS <span>Python Hub</span>
-          </Link>
-          <Link href="/#projects" className={styles.navLink}>Projects</Link>
-        </div>
-      </header>
+      <Header />
 
       <div className={styles.pageWrapper}>
         <div className={styles.formCard}>
