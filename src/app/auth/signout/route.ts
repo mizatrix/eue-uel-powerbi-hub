@@ -5,12 +5,10 @@ import { type NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
 
-  // Check if we have a session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  // Use getUser() instead of deprecated getSession()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  if (session) {
+  if (user) {
     await supabase.auth.signOut()
   }
 

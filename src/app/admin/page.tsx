@@ -107,12 +107,15 @@ export default async function AdminDashboard() {
                       </span>
                     </td>
                     <td style={{ padding: '1rem' }}>
-                      <form action="/actions/grade-submission" method="POST" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      <form action="/actions/grade-submission" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                         <input type="hidden" name="submission_id" value={sub.id} />
-                        <input type="number" name="grade" placeholder="0-100" min={0} max={100} defaultValue={sub.grade} style={{ width: '75px', padding: '0.5rem', borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', color: 'white', textAlign: 'center' }} />
-                        <button type="submit" className="btn primary-btn" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
-                          <i className="fa-solid fa-check"></i>
-                        </button>
+                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                          <input type="number" name="grade" placeholder="0-100" min={0} max={100} defaultValue={sub.grade} style={{ width: '75px', padding: '0.5rem', borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', color: 'white', textAlign: 'center' }} />
+                          <button type="submit" className="btn primary-btn" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
+                            <i className="fa-solid fa-check"></i>
+                          </button>
+                        </div>
+                        <input type="text" name="feedback" placeholder="Feedback..." defaultValue={sub.feedback || ''} style={{ width: '100%', padding: '0.4rem 0.6rem', borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', color: 'white', fontSize: '0.8rem' }} />
                       </form>
                     </td>
                   </tr>

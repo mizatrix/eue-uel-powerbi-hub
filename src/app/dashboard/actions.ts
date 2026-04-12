@@ -20,6 +20,32 @@ export async function registerTeam(formData: FormData) {
     redirect('/dashboard?error=Team name and project are required.')
   }
 
+  // Ensure the user has a profile row (fixes FK constraint on teams.leader_id)
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (!existingProfile) {
+    const displayName = user.user_metadata?.full_name
+      || user.email?.split('@')[0]
+      || 'Student'
+
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert({
+        id: user.id,
+        full_name: displayName,
+        role: 'student',
+      })
+
+    if (profileError) {
+      console.error('Profile creation error:', profileError)
+      redirect(`/dashboard?error=${encodeURIComponent('Could not create your profile. Please contact support.')}`)
+    }
+  }
+
   // Check if project is already taken
   const { data: existingTeam } = await supabase
     .from('teams')

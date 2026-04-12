@@ -15,6 +15,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard?error=Missing data', req.url), { status: 302 })
   }
 
+  // Ensure profile exists (fixes submitted_by FK constraint)
+  const { data: existingProfile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (!existingProfile) {
+    const displayName = user.user_metadata?.full_name
+      || user.email?.split('@')[0]
+      || 'Student'
+
+    await supabase.from('profiles').insert({
+      id: user.id,
+      full_name: displayName,
+      role: 'student',
+    })
+  }
+
   const { error } = await supabase
     .from('submissions')
     .insert([

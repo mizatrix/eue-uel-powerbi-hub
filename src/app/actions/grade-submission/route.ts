@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   const formData = await req.formData()
   const submission_id = formData.get('submission_id') as string
   const grade = formData.get('grade') as string
+  const feedback = formData.get('feedback') as string | null
   
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -28,7 +29,11 @@ export async function POST(req: NextRequest) {
 
   const { error } = await supabase
     .from('submissions')
-    .update({ grade: parseInt(grade, 10), status: 'graded' })
+    .update({
+      grade: parseInt(grade, 10),
+      status: 'graded',
+      feedback: feedback || null,
+    })
     .eq('id', submission_id)
 
   if (error) {
