@@ -84,3 +84,40 @@
     margin-bottom: 0.8rem;
     width: fit-content;
 }
+
+/* ── Category Badge & Accent Updates ── */
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardTitle {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+}
+
+.cardDesc {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.categoryBadge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  border: 1px solid;
+  font-size: 0.65rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}

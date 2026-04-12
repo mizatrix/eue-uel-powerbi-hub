@@ -17,7 +17,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
     } else {
       document.body.style.overflow = "auto";
     }
-    
+
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
@@ -31,39 +31,73 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
   if (!project) return null;
 
   return (
-    <div 
-      className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""}`} 
+    <div
+      className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""}`}
       onClick={onClose}
     >
-      <div 
-        className={styles.modalContent} 
+      <div
+        className={styles.modalContent}
         onClick={(e) => e.stopPropagation()}
+        style={{ '--modal-accent': project.accent } as React.CSSProperties}
       >
         <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">
           <i className="fa-solid fa-xmark"></i>
         </button>
 
         <div className={styles.modalHeader}>
-          <div className={styles.modalIcon}>
+          <div className={styles.modalIcon} style={{ color: project.accent, background: `${project.accent}15`, borderColor: `${project.accent}30` }}>
             <i className={`fa-solid ${project.icon}`}></i>
           </div>
-          <h3>{project.title}</h3>
+          <div>
+            <span className={styles.modalCategory} style={{ color: project.accent }}>{project.category}</span>
+            <h3>{project.title}</h3>
+          </div>
         </div>
 
         <p className={styles.modalDesc}>{project.description}</p>
 
         <h4>
-          <i className="fa-solid fa-list-check"></i> Key Features:
+          <i className="fa-solid fa-list-check"></i> Deliverables:
         </h4>
         <ul className={styles.featuresList}>
           {project.features.map((feature, idx) => (
-            <li key={idx}>{feature}</li>
+            <li key={idx}>
+              <i className="fa-solid fa-circle-check" style={{ color: project.accent, marginRight: '0.5rem', fontSize: '0.8rem' }}></i>
+              {feature}
+            </li>
           ))}
         </ul>
 
-        <div style={{ marginTop: '2rem' }}>
-          <a href="/login" className="btn primary-btn" style={{ width: '100%', textAlign: 'center', display: 'block' }}>
-            Register Your Team Now
+        {/* Dataset Source */}
+        <div className={styles.datasetSection}>
+          <h4><i className="fa-solid fa-database"></i> Suggested Dataset Source:</h4>
+          <a
+            href={project.datasetUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.datasetLink}
+            style={{ borderColor: `${project.accent}40`, color: project.accent }}
+          >
+            <i className="fa-solid fa-arrow-up-right-from-square"></i>
+            {project.datasetUrl.includes('kaggle') ? 'Search on Kaggle.com' :
+             project.datasetUrl.includes('google') ? 'Search on Google Dataset Search' :
+             project.datasetUrl.includes('microsoft') ? 'Microsoft Power BI Sample Datasets' :
+             'Find Dataset'}
+          </a>
+          <p className={styles.datasetNote}>
+            <i className="fa-solid fa-circle-info"></i>
+            Choose a dataset with <strong>at least 1,000 rows</strong> and <strong>5+ columns</strong>.
+          </p>
+        </div>
+
+        <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <a href="/login" className="btn primary-btn" style={{ flex: 1, textAlign: 'center', minWidth: '160px' }}>
+            <i className="fa-solid fa-users" style={{ marginRight: '0.4rem' }}></i>
+            Register Team
+          </a>
+          <a href="/guide" className="btn secondary-btn" style={{ flex: 1, textAlign: 'center', minWidth: '160px' }}>
+            <i className="fa-solid fa-book-open" style={{ marginRight: '0.4rem' }}></i>
+            View Guide
           </a>
         </div>
       </div>

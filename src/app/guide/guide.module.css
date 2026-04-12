@@ -1,0 +1,292 @@
+.guidePage {
+  min-height: 100vh;
+}
+
+/* ── Hero ── */
+.guideHero {
+  padding: calc(var(--section-padding) + 2rem) 0 var(--section-padding);
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 48, 87, 0.35) 0%, rgba(230, 30, 42, 0.08) 60%, transparent 100%);
+}
+
+.guideHeroContent {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.guideBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  background: linear-gradient(135deg, rgba(0,48,87,0.35), rgba(230,30,42,0.2));
+  border: 1px solid rgba(0,48,87,0.4);
+  border-radius: 50px;
+  color: #a8c8f0;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.guideTitle {
+  font-size: var(--fs-hero);
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #a8c8f0 40%, #e61e2a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.2rem;
+}
+
+.guideSubtitle {
+  font-size: var(--fs-lg);
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+.guideStats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.guideStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.guideStat span {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, #003057, #e61e2a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Steps ── */
+.stepsSection {
+  padding: var(--section-padding) 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.stepCard {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 1.8rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid var(--step-color, #003057);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stepCard:hover {
+  transform: translateX(4px);
+  box-shadow: -4px 0 20px rgba(0, 48, 87, 0.2);
+}
+
+.stepNum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.stepNum i {
+  font-size: 1.2rem;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stepTitle {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.stepList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stepList li {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.stepList li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--step-color, #003057);
+  font-weight: 700;
+}
+
+.stepList li code {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85em;
+  color: #a8c8f0;
+}
+
+.stepList li a {
+  color: #a8c8f0;
+  text-decoration: underline;
+}
+
+/* ── Downloads ── */
+.downloadsSection {
+  padding: 0 0 var(--section-padding);
+}
+
+.downloadsCard {
+  background: linear-gradient(135deg, rgba(0,48,87,0.2), rgba(230,30,42,0.08));
+  border: 1px solid rgba(0,48,87,0.3);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.downloadsCard h2 {
+  font-size: var(--fs-xl);
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.downloadsCard p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.downloadButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid;
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  background: rgba(255,255,255,0.03);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.downloadBtn:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+
+.fileSize {
+  background: rgba(255,255,255,0.1);
+  border-radius: 50px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.7rem;
+  margin-left: 0.2rem;
+}
+
+/* ── CTA ── */
+.ctaSection {
+  padding: 4rem 0 var(--section-padding);
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 100%, rgba(230,30,42,0.12) 0%, transparent 70%);
+}
+
+.ctaSection h2 {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+
+.ctaSection p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .stepCard {
+    grid-template-columns: 1fr;
+    padding: 1.2rem;
+  }
+
+  .stepNum {
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    gap: 0.6rem;
+  }
+
+  .downloadButtons {
+    flex-direction: column;
+  }
+
+  .downloadBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

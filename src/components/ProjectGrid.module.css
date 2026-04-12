@@ -94,3 +94,75 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ── Category Filter Pills ── */
+.headerSubtitle {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-top: 0.3rem;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.categoryFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.categoryPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.categoryPill:hover {
+  color: var(--text-main);
+  border-color: rgba(0, 48, 87, 0.4);
+  background: rgba(0, 48, 87, 0.1);
+}
+
+.categoryPillActive {
+  background: linear-gradient(135deg, rgba(0,48,87,0.35), rgba(230,30,42,0.2));
+  border-color: rgba(230, 30, 42, 0.4);
+  color: #fff;
+  font-weight: 600;
+}
+
+.pillCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50px;
+  padding: 0 0.4rem;
+  font-size: 0.7rem;
+  min-width: 1.4rem;
+}
+
+@media (max-width: 768px) {
+  .categoryFilter {
+    gap: 0.4rem;
+  }
+  .categoryPill {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.7rem;
+  }
+}

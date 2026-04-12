@@ -151,3 +151,63 @@
         font-size: var(--fs-xl);
     }
 }
+
+/* ── Dataset Section ── */
+.modalCategory {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.datasetSection {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--glass-border);
+}
+
+.datasetSection h4 {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.datasetLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid;
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-bottom: 0.75rem;
+}
+
+.datasetLink:hover {
+  opacity: 0.8;
+  transform: translateX(3px);
+}
+
+.datasetNote {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  line-height: 1.5;
+}
+
+.datasetNote i {
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}

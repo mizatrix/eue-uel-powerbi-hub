@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AASTMT BIS | Python Projects",
-  description: "Explore the comprehensive Python projects assigned by Dr. Motaz Samy & TA. Toka Sherif.",
+  title: "EUE | UEL Power BI Hub",
+  description: "Your central hub for EUE (UEL) Power BI student projects. Supervised by Dr. Motaz Samy & TA. Toka Sherif.",
 };
 
 export default function RootLayout({

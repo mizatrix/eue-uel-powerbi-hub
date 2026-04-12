@@ -48,7 +48,7 @@ export default async function DashboardPage({
         <div className="container">
           <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h1 className="logo">
-              <i className="fa-brands fa-python"></i> AASTMT BIS <span>Python Hub</span>
+              <i className="fa-brands fa-python"></i> EUE | UEL <span>Power BI Hub</span>
             </h1>
           </Link>
           <nav style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -151,17 +151,17 @@ export default async function DashboardPage({
                 </div>
                 <div className="form-group">
                   <label htmlFor="members">
-                    Team Members (one per line) &mdash; <span style={{ color: 'var(--primary-color)', fontWeight: 600 }}>max 4</span>
+                    Team Members (one per line) &mdash; <span style={{ color: 'var(--primary-color)', fontWeight: 600 }}>max 6</span>
                   </label>
                   <textarea
                     id="members"
                     name="members"
                     rows={4}
-                    placeholder={"Ahmed Ali - 2110001\nSara Ahmed - 2110002\nOmar Sayed - 2110003\nMona Tarek - 2110004"}
+                    placeholder={"Ahmed Ali - 2110001\nSara Ahmed - 2110002\nOmar Sayed - 2110003\nMona Tarek - 2110004\nAmr Hassan - 2110005\nYara Nour - 2110006"}
                   ></textarea>
                   <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
                     <i className="fa-solid fa-circle-info" style={{ marginRight: '0.3rem' }}></i>
-                    Enter each member&apos;s name and ID on a separate line. Maximum 4 members allowed.
+                    Enter each member&apos;s name and ID on a separate line. Maximum 6 members allowed.
                   </p>
                 </div>
                 <button type="submit" className="btn primary-btn submit-btn" style={{ marginTop: 'auto' }}>

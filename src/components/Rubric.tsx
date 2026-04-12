@@ -8,106 +8,113 @@ interface RubricItem {
   label: string;
   icon: string;
   accent: string;
+  points: number;
   content: {
     title: string;
-    points: string[];
+    grades: { level: string; range: string; desc: string }[];
   }[];
 }
 
 const RUBRIC_DATA: RubricItem[] = [
   {
-    id: 'presentation',
-    label: 'Presentation',
-    icon: 'fa-person-chalkboard',
-    accent: '#6366f1',
+    id: 'cleaning',
+    label: 'Data Cleaning',
+    icon: 'fa-broom',
+    accent: '#003057',
+    points: 20,
     content: [
       {
-        title: 'Communication & Delivery',
-        points: [
-          'Professional attire and confident posture',
-          'Clear, audible, and paced speaking style',
-          'Eye contact with the audience/evaluators',
-          'Fluent transitions between team members'
-        ]
-      },
-      {
-        title: 'Visual Aids & PPT',
-        points: [
-          'Clean, readable slides with consistent design',
-          'Effective use of diagrams and flowcharts',
-          'No text-heavy slides (use keywords)',
-          'Proper AASTMT/BIS branding'
+        title: 'Power Query — ETL',
+        grades: [
+          { level: 'Excellent', range: '15–20 pts', desc: 'Data perfectly clean. Correct data types (Dates, Numbers). Nulls and irrelevant columns removed.' },
+          { level: 'Satisfactory', range: '10–14 pts', desc: 'Basic cleaning done, but some data types incorrect (numbers stored as text) affecting calculations.' },
+          { level: 'Poor', range: '0–9 pts', desc: 'Raw data loaded without Power Query. Contains blanks, errors, or useless columns.' },
         ]
       }
     ]
   },
   {
-    id: 'technical',
-    label: 'Technical Work',
-    icon: 'fa-code',
-    accent: '#a855f7',
+    id: 'modeling',
+    label: 'Data Modeling & DAX',
+    icon: 'fa-diagram-project',
+    accent: '#0a4a8c',
+    points: 25,
     content: [
       {
-        title: 'Source Code Quality',
-        points: [
-          'Clean, DRY (Don\'t Repeat Yourself) code',
-          'Meaningful variable and function names',
-          'Proper indentation and commenting',
-          'Effective exception handling (try-except)'
+        title: 'Star Schema & DAX Measures',
+        grades: [
+          { level: 'Excellent', range: '20–25 pts', desc: 'Clear Star Schema with working Date Table (CALENDARAUTO). Proper 1-to-Many relationships. Meaningful DAX measures (Profit, YoY Growth).' },
+          { level: 'Satisfactory', range: '13–19 pts', desc: 'Relationships exist but messy (Many-to-Many). Basic DAX only (SUM/COUNT), no Date Table.' },
+          { level: 'Poor', range: '0–12 pts', desc: 'Flat file — no relationships. Zero DAX measures created.' },
         ]
-      },
+      }
+    ]
+  },
+  {
+    id: 'dashboard',
+    label: 'Dashboard Design',
+    icon: 'fa-chart-pie',
+    accent: '#e61e2a',
+    points: 20,
+    content: [
       {
-        title: 'Functionality',
-        points: [
-          'Application runs without errors',
-          'All core features are implemented',
-          'Logical flow and data processing',
-          'Smart UI/UX even in console/GUI'
+        title: 'Visualization & UX',
+        grades: [
+          { level: 'Excellent', range: '16–20 pts', desc: 'Visually appealing. Correct chart types (Line for time, Bar for comparison). Working slicers. KPI Cards highlighted.' },
+          { level: 'Satisfactory', range: '10–15 pts', desc: 'Dashboard works but cluttered. Poor color choices or incorrect chart usage (Pie for 20+ categories).' },
+          { level: 'Poor', range: '0–9 pts', desc: 'Messy layout. Charts are unreadable or logically incorrect.' },
         ]
       }
     ]
   },
   {
     id: 'documentation',
-    label: 'Documentation',
+    label: 'LaTeX Report',
     icon: 'fa-file-lines',
-    accent: '#ec4899',
+    accent: '#c0392b',
+    points: 20,
     content: [
       {
-        title: 'Technical Report',
-        points: [
-          'Clear problem definition and solution',
-          'Detailed flowcharts and logic explanation',
-          'Code snippets with explanations',
-          'Reflection and future enhancements'
+        title: 'Overleaf / LaTeX Documentation',
+        grades: [
+          { level: 'Excellent', range: '16–20 pts', desc: 'Professional LaTeX format. Contains Abstract, Dataset description, ETL steps, DAX code snippets, and dashboard screenshots with business explanations.' },
+          { level: 'Satisfactory', range: '10–15 pts', desc: 'LaTeX used but formatting is broken. Missing code snippets or blurry screenshots. Explanations too brief.' },
+          { level: 'Poor', range: '0–9 pts', desc: 'Submitted as Word document instead of LaTeX PDF, or missing major sections.' },
         ]
       }
     ]
   },
   {
-    id: 'qa',
-    label: 'Q&A Session',
-    icon: 'fa-comments',
-    accent: '#14b8a6',
+    id: 'presentation',
+    label: 'Presentation',
+    icon: 'fa-person-chalkboard',
+    accent: '#8b5cf6',
+    points: 15,
     content: [
       {
-        title: 'Defense',
-        points: [
-          'Answering logic-related questions accurately',
-          'Explaining specific code blocks on demand',
-          'Demonstrating deep understanding of the project'
+        title: 'Business Insights & Delivery',
+        grades: [
+          { level: 'Excellent', range: '12–15 pts', desc: 'Presents like an analyst to a CEO. Focus on actionable business insights ("Region X dropped 20% — we recommend increasing budget there.")' },
+          { level: 'Satisfactory', range: '7–11 pts', desc: 'Good but too technical ("I clicked this button"). Missing the business value.' },
+          { level: 'Poor', range: '0–6 pts', desc: 'Group does not understand their data or cannot explain dashboard insights.' },
         ]
       }
     ]
   }
 ];
 
+const LEVEL_COLORS: Record<string, string> = {
+  Excellent: '#22c55e',
+  Satisfactory: '#f59e0b',
+  Poor: '#ef4444',
+};
+
 export default function Rubric() {
-  const [openItems, setOpenItems] = useState<string[]>(['presentation']);
+  const [openItems, setOpenItems] = useState<string[]>(['cleaning']);
   const tocRef = useRef<HTMLDivElement>(null);
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => 
+    setOpenItems(prev =>
       prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
     );
   };
@@ -126,17 +133,14 @@ export default function Rubric() {
       const offset = 100;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
       if (!openItems.includes(id)) {
         setOpenItems(prev => [...prev, id]);
       }
     }
   };
+
+  const totalPoints = RUBRIC_DATA.reduce((acc, r) => acc + r.points, 0);
 
   return (
     <section className={styles.rubricSection} id="rubric">
@@ -145,31 +149,52 @@ export default function Rubric() {
           <span className="badge">Grading Standards</span>
           <h2 className={styles.rubricTitle}>Project Rubric</h2>
           <p className={styles.rubricSubtitle}>
-            Your performance will be evaluated based on these key pillars. 
-            Aim for excellence in both logic and presentation.
+            Your Power BI project will be evaluated across these 5 pillars.
+            Aim for excellence in both technical depth and business presentation.
           </p>
         </div>
 
         <div className={styles.gradingGrid}>
           <div className={styles.gradingCard}>
-            <div className={styles.gradingIcon}><i className="fa-solid fa-code"></i></div>
+            <div className={styles.gradingIcon}><i className="fa-solid fa-broom"></i></div>
             <div>
-              <span className={styles.gradingValue}>10 Points</span>
-              <span className={styles.gradingLabel}>Python Project</span>
+              <span className={styles.gradingValue}>20 Points</span>
+              <span className={styles.gradingLabel}>Data Cleaning (ETL)</span>
+            </div>
+          </div>
+          <div className={styles.gradingCard}>
+            <div className={styles.gradingIcon}><i className="fa-solid fa-diagram-project"></i></div>
+            <div>
+              <span className={styles.gradingValue}>25 Points</span>
+              <span className={styles.gradingLabel}>Modeling & DAX</span>
+            </div>
+          </div>
+          <div className={styles.gradingCard}>
+            <div className={styles.gradingIcon}><i className="fa-solid fa-chart-pie"></i></div>
+            <div>
+              <span className={styles.gradingValue}>20 Points</span>
+              <span className={styles.gradingLabel}>Dashboard Design</span>
+            </div>
+          </div>
+          <div className={styles.gradingCard}>
+            <div className={styles.gradingIcon}><i className="fa-solid fa-file-lines"></i></div>
+            <div>
+              <span className={styles.gradingValue}>20 Points</span>
+              <span className={styles.gradingLabel}>LaTeX Report</span>
             </div>
           </div>
           <div className={styles.gradingCard}>
             <div className={styles.gradingIcon}><i className="fa-solid fa-person-chalkboard"></i></div>
             <div>
-              <span className={styles.gradingValue}>5 Points</span>
+              <span className={styles.gradingValue}>15 Points</span>
               <span className={styles.gradingLabel}>Presentation</span>
             </div>
           </div>
-          <div className={styles.gradingCard}>
-            <div className={styles.gradingIcon}><i className="fa-solid fa-circle-question"></i></div>
+          <div className={styles.gradingCard} style={{ background: 'linear-gradient(135deg, rgba(0,48,87,0.3), rgba(230,30,42,0.2))', borderColor: 'rgba(230,30,42,0.3)' }}>
+            <div className={styles.gradingIcon} style={{ color: '#e61e2a' }}><i className="fa-solid fa-star"></i></div>
             <div>
-              <span className={styles.gradingValue}>2 Questions</span>
-              <span className={styles.gradingLabel}>Per Student (Q&A)</span>
+              <span className={styles.gradingValue} style={{ color: '#e61e2a' }}>{totalPoints} Total</span>
+              <span className={styles.gradingLabel}>Full Score</span>
             </div>
           </div>
         </div>
@@ -184,9 +209,10 @@ export default function Rubric() {
             >
               <i className={`fa-solid ${item.icon}`}></i>
               {item.label}
+              <span className={styles.tocPoints}>{item.points}pts</span>
             </button>
           ))}
-          <button 
+          <button
             onClick={toggleAll}
             className={`${styles.tocPill} ${styles.tocPillToggleAll}`}
           >
@@ -197,13 +223,13 @@ export default function Rubric() {
 
         <div className={styles.rubricAccordion}>
           {RUBRIC_DATA.map(sect => (
-            <div 
-              key={sect.id} 
+            <div
+              key={sect.id}
               id={`rubric-${sect.id}`}
               className={`${styles.accordionItem} ${openItems.includes(sect.id) ? styles.accordionItemOpen : ''}`}
               style={{ '--accent': sect.accent } as React.CSSProperties}
             >
-              <button 
+              <button
                 className={styles.accordionTrigger}
                 onClick={() => toggleItem(sect.id)}
                 aria-expanded={openItems.includes(sect.id)}
@@ -212,9 +238,7 @@ export default function Rubric() {
                   <i className={`fa-solid ${sect.icon}`}></i>
                 </div>
                 <span className={styles.accordionLabel}>{sect.label}</span>
-                <span className={styles.accordionCount}>
-                  {sect.content.reduce((acc, c) => acc + c.points.length, 0)} Criteria
-                </span>
+                <span className={styles.accordionCount}>{sect.points} Points</span>
                 <i className={`fa-solid fa-chevron-down ${styles.accordionChevron} ${openItems.includes(sect.id) ? styles.accordionChevronUp : ''}`}></i>
               </button>
 
@@ -226,14 +250,18 @@ export default function Rubric() {
                         <i className="fa-solid fa-circle-check"></i>
                         {group.title}
                       </h4>
-                      <ul className={styles.itemList}>
-                        {group.points.map((pt, pIdx) => (
-                          <li key={pIdx}>
-                            <i className="fa-solid fa-arrow-right"></i>
-                            {pt}
-                          </li>
+                      <div className={styles.gradesTable}>
+                        {group.grades.map((g, gIdx) => (
+                          <div key={gIdx} className={styles.gradeRow}>
+                            <span className={styles.gradeLevel} style={{ color: LEVEL_COLORS[g.level] }}>
+                              <i className="fa-solid fa-circle" style={{ fontSize: '0.5rem', marginRight: '0.4rem' }}></i>
+                              {g.level}
+                            </span>
+                            <span className={styles.gradeRange}>{g.range}</span>
+                            <span className={styles.gradeDesc}>{g.desc}</span>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </div>
                   ))}
                 </div>

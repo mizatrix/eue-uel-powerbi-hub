@@ -19,7 +19,7 @@ export default function Header() {
         </button>
 
         <Link href="/" className={styles.logo}>
-          <i className="fa-brands fa-python"></i> AASTMT BIS <span>Python Hub</span>
+          <i className="fa-brands fa-python"></i> EUE | UEL <span>Power BI Hub</span>
         </Link>
 
         {isMenuOpen && (
@@ -40,6 +40,7 @@ export default function Header() {
           
           <Link href="/#rubric" className={styles.navLink} onClick={() => setIsMenuOpen(false)}>Rubric</Link>
           <Link href="/#projects" className={styles.navLink} onClick={() => setIsMenuOpen(false)}>Projects</Link>
+          <Link href="/guide" className={styles.navLink} onClick={() => setIsMenuOpen(false)}>Guide</Link>
           <Link href="/login" className={styles.navLink} onClick={() => setIsMenuOpen(false)}>Login</Link>
         </nav>
       </div>

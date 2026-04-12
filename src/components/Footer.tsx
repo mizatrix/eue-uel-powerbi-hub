@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <p className={styles.copyright}>
-          &copy; {new Date().getFullYear()} AASTMT BIS Python Hub. Designed for Academic Excellence.
+          &copy; {new Date().getFullYear()} EUE | UEL Power BI Hub. Designed for EUE (UEL) Academic Excellence.
         </p>
         <div className={styles.credits}>
           <span>Supervised by <strong>Dr. Moataz Samy</strong> & <strong>TA. Toka Sherif</strong></span>
