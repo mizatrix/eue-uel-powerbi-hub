@@ -22,7 +22,7 @@ export default async function LoginPage({
               <i className="fa-solid fa-lock"></i>
             </div>
             <h2 className={styles.cardTitle}>Welcome Back</h2>
-            <p className={styles.cardSubtitle}>Sign in with your EUE institutional email to continue</p>
+            <p className={styles.cardSubtitle}>Sign in with your EUE or UEL institutional email</p>
           </div>
 
           {error && (
@@ -41,8 +41,8 @@ export default async function LoginPage({
 
           <form>
             <div className={styles.formGroup}>
-              <label htmlFor="email">EUE Email <span className={styles.required}>*</span></label>
-              <input id="email" name="email" type="email" required placeholder="name@eue.edu.eg" />
+              <label htmlFor="email">Institutional Email <span className={styles.required}>*</span></label>
+              <input id="email" name="email" type="email" required placeholder="name@eue.edu.eg or name@uel.ac.uk" />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="password">Password <span className={styles.required}>*</span></label>
@@ -59,7 +59,7 @@ export default async function LoginPage({
           </form>
 
           <p className={styles.footerNote}>
-            Only <strong>@eue.edu.eg</strong> institutional emails are accepted.
+            Accepted: <strong>@eue.edu.eg</strong> · <strong>@uel.ac.uk</strong> · <strong>@student.uel.ac.uk</strong>
           </p>
         </div>
       </div>

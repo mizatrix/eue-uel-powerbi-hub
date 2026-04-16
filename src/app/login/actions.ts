@@ -32,9 +32,10 @@ export async function signup(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
-  // EUE Domain Verification
-  if (!email.endsWith('@eue.edu.eg') && !email.endsWith('@uel.eue.edu.eg')) {
-    redirect('/login?error=Only official EUE institutional emails (@eue.edu.eg, @uel.eue.edu.eg) are permitted.')
+  // EUE / UEL Domain Verification
+  const allowedDomains = ['@eue.edu.eg', '@uel.eue.edu.eg', '@uel.ac.uk', '@student.uel.ac.uk']
+  if (!allowedDomains.some(domain => email.endsWith(domain))) {
+    redirect('/login?error=Only official EUE / UEL institutional emails are permitted.')
   }
 
   const data = {
