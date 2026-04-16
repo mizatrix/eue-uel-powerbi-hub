@@ -100,13 +100,31 @@ export default async function DashboardPage({
                   <div>
                     <strong>Members:</strong>
                     {Array.isArray(team.members) && team.members.length > 0 ? (
-                      <ul style={{ marginTop: '0.4rem', paddingLeft: '1.2rem', listStyleType: 'none' }}>
-                        {team.members.map((member: string, i: number) => (
-                          <li key={i} style={{ padding: '0.2rem 0', color: 'var(--text-muted)' }}>
-                            <i className="fa-solid fa-user" style={{ marginRight: '0.5rem', fontSize: '0.75rem', color: 'var(--primary-color)' }}></i>
-                            {member}
-                          </li>
-                        ))}
+                      <ul style={{ marginTop: '0.6rem', paddingLeft: 0, listStyleType: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                        {team.members.map((member: string, i: number) => {
+                          const parts = member.split('|').map((p: string) => p.trim())
+                          const [name, moodleEmail, eueEmail] = parts.length === 3 ? parts : [member, '', '']
+                          return (
+                            <li key={i} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.5rem 0.75rem' }}>
+                              <p style={{ margin: 0, fontWeight: 600, color: 'var(--text-color)', marginBottom: moodleEmail ? '0.3rem' : 0 }}>
+                                <i className="fa-solid fa-user" style={{ marginRight: '0.5rem', fontSize: '0.75rem', color: 'var(--primary-color)' }}></i>
+                                {name}
+                              </p>
+                              {moodleEmail && (
+                                <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                  <i className="fa-solid fa-envelope" style={{ marginRight: '0.35rem', color: '#818cf8' }}></i>
+                                  {moodleEmail}
+                                </p>
+                              )}
+                              {eueEmail && (
+                                <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                  <i className="fa-solid fa-envelope" style={{ marginRight: '0.35rem', color: '#34d399' }}></i>
+                                  {eueEmail}
+                                </p>
+                              )}
+                            </li>
+                          )
+                        })}
                       </ul>
                     ) : (
                       <span style={{ color: 'var(--text-muted)', marginLeft: '0.5rem' }}>No members added</span>
@@ -151,17 +169,17 @@ export default async function DashboardPage({
                 </div>
                 <div className="form-group">
                   <label htmlFor="members">
-                    Team Members (one per line) &mdash; <span style={{ color: 'var(--primary-color)', fontWeight: 600 }}>max 6</span>
+                    Team Members (one per line) &mdash; <span style={{ color: 'var(--primary-color)', fontWeight: 600 }}>max 4</span>
                   </label>
                   <textarea
                     id="members"
                     name="members"
                     rows={4}
-                    placeholder={"Ahmed Ali - 2110001\nSara Ahmed - 2110002\nOmar Sayed - 2110003\nMona Tarek - 2110004\nAmr Hassan - 2110005\nYara Nour - 2110006"}
+                    placeholder={"Ahmed Ali - 2110001\nSara Ahmed - 2110002\nOmar Sayed - 2110003\nMona Tarek - 2110004"}
                   ></textarea>
                   <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
                     <i className="fa-solid fa-circle-info" style={{ marginRight: '0.3rem' }}></i>
-                    Enter each member&apos;s name and ID on a separate line. Maximum 6 members allowed.
+                    Enter each member&apos;s name and ID on a separate line. Maximum 4 members allowed.
                   </p>
                 </div>
                 <button type="submit" className="btn primary-btn submit-btn" style={{ marginTop: 'auto' }}>
@@ -178,7 +196,7 @@ export default async function DashboardPage({
                 <div className="modal-icon"><i className="fa-solid fa-code"></i></div>
                 <h3>Project Submission</h3>
               </div>
-              
+
               {team.submissions && team.submissions.length > 0 ? (
                 <div style={{ marginTop: '1rem' }}>
                   <p style={{ marginBottom: '0.5rem' }}><strong>GitHub URL:</strong> <a href={team.submissions[0].github_url} target="_blank" style={{ color: 'var(--primary-color)' }}>{team.submissions[0].github_url}</a></p>

@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 
 export async function registerTeam(formData: FormData) {
   const supabase = await createClient()
@@ -32,7 +33,13 @@ export async function registerTeam(formData: FormData) {
       || user.email?.split('@')[0]
       || 'Student'
 
-    const { error: profileError } = await supabase
+    // Use service-role client to bypass RLS (mirrors SECURITY DEFINER trigger)
+    const adminClient = createServiceClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+
+    const { error: profileError } = await adminClient
       .from('profiles')
       .insert({
         id: user.id,
@@ -42,7 +49,7 @@ export async function registerTeam(formData: FormData) {
 
     if (profileError) {
       console.error('Profile creation error:', profileError)
-      redirect(`/dashboard?error=${encodeURIComponent('Could not create your profile. Please contact support.')}`)
+      redirect(`/dashboard?error=${encodeURIComponent('Could not create your profile: ' + profileError.message)}`)
     }
   }
 
@@ -62,9 +69,9 @@ export async function registerTeam(formData: FormData) {
     ? membersList.split('\n').filter(Boolean).map(line => line.trim())
     : []
 
-  // Enforce maximum of 4 members per team
-  if (members.length > 4) {
-    redirect('/dashboard?error=A team can have a maximum of 4 members.')
+  // Enforce maximum of 6 members per team
+  if (members.length > 6) {
+    redirect('/dashboard?error=A team can have a maximum of 6 members.')
   }
 
   const { error } = await supabase.from('teams').insert([
