@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
@@ -27,11 +28,27 @@ export async function POST(req: NextRequest) {
       || user.email?.split('@')[0]
       || 'Student'
 
-    await supabase.from('profiles').insert({
-      id: user.id,
-      full_name: displayName,
-      role: 'student',
-    })
+    // Use service-role client to bypass RLS
+    const adminClient = createServiceClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+
+    const { error: profileError } = await adminClient
+      .from('profiles')
+      .insert({
+        id: user.id,
+        full_name: displayName,
+        role: 'student',
+      })
+
+    if (profileError) {
+      console.error('Profile creation error:', profileError)
+      return NextResponse.redirect(
+        new URL(`/dashboard?error=${encodeURIComponent('Could not create your profile: ' + profileError.message)}`, req.url),
+        { status: 302 }
+      )
+    }
   }
 
   const { error } = await supabase
