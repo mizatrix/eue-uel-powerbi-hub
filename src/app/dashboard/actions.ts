@@ -41,11 +41,11 @@ export async function registerTeam(formData: FormData) {
 
     const { error: profileError } = await adminClient
       .from('profiles')
-      .insert({
+      .upsert({
         id: user.id,
         full_name: displayName,
         role: 'student',
-      })
+      }, { onConflict: 'id', ignoreDuplicates: true })
 
     if (profileError) {
       console.error('Profile creation error:', profileError)
