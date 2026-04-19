@@ -9,7 +9,7 @@ export default function Hero() {
         <h2 className={styles.title}>Welcome, EUE (UEL) Students</h2>
         <p className={styles.description}>
           Explore the Power BI student projects managed by{" "}
-          <strong>Dr. Motaz Samy</strong> &amp; <strong>TA. Toka Sherif</strong>. Build, analyze,
+          <strong>Dr. Motaz Samy</strong> &amp; <strong>TA. Sohila Ashraf</strong>. Build, analyze,
           and master data visualization for academic excellence.
         </p>
         <div className={styles.buttons}>

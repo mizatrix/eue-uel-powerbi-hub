@@ -9,7 +9,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} EUE | UEL Power BI Hub. Designed for EUE (UEL) Academic Excellence.
         </p>
         <div className={styles.credits}>
-          <span>Supervised by <strong>Dr. Moataz Samy</strong> & <strong>TA. Toka Sherif</strong></span>
+          <span>Supervised by <strong>Dr. Moataz Samy</strong> & <strong>TA. Sohila Ashraf</strong></span>
         </div>
       </div>
     </footer>
