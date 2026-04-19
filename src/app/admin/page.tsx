@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { projectsData } from '@/data/projects'
 import ExportCSV from './ExportCSV'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminDashboard() {
   const supabase = await createClient()
 

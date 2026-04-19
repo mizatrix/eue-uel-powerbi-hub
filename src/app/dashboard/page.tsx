@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { registerTeam } from './actions'
 import { projectsData } from '@/data/projects'
 
+export const dynamic = 'force-dynamic'
+
 export default async function DashboardPage({
   searchParams,
 }: {
