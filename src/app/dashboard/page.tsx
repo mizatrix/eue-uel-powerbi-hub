@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { registerTeam } from './actions'
@@ -23,17 +24,24 @@ export default async function DashboardPage({
     redirect('/login')
   }
 
+  // Use admin client to reliably check role (bypasses RLS)
+  const adminClient = createAdminClient()
+  const { data: roleCheck } = await adminClient
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  if (roleCheck?.role === 'instructor') {
+    redirect('/admin')
+  }
+
   // Fetch student profile
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
-
-  // Redirect instructors to admin panel
-  if (profile?.role === 'instructor') {
-    redirect('/admin')
-  }
 
   // Fetch the student's team (as leader)
   const { data: team } = await supabase

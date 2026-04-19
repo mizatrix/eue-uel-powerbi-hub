@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { projectsData } from '@/data/projects'
@@ -8,12 +9,13 @@ export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
+  const adminClient = createAdminClient()
 
   // Authenticate user and verify role
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
+  const { data: profile } = await adminClient
     .from('profiles')
     .select('role, full_name')
     .eq('id', user.id)
@@ -23,14 +25,14 @@ export default async function AdminDashboard() {
     redirect('/dashboard')
   }
 
-  // Fetch all teams with leader info
-  const { data: teams } = await supabase
+  // Fetch all teams with leader info (admin client bypasses RLS)
+  const { data: teams } = await adminClient
     .from('teams')
     .select('*, profiles!leader_id(full_name)')
     .order('team_name', { ascending: true })
 
   // Fetch all registered profiles (students)
-  const { data: allProfiles } = await supabase
+  const { data: allProfiles } = await adminClient
     .from('profiles')
     .select('full_name, student_id, role, created_at')
     .order('created_at', { ascending: false })
